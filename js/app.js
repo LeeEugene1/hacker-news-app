@@ -13,26 +13,20 @@ function getData(url){
 const newsFeed = getData(NEWS_URL)
 
 window.addEventListener('hashchange',()=>{
-    content.innerHTML = ''
-    //hash태그가 바뀔때마다 함수호출
-    // console.log('hash is changed')
+    const div = document.createElement('div')
     console.log(location.hash)//#123456
     const id = location.hash.substr(1)
     const newsContent = getData(CONTENT_URL.replace('@id', id))
-    const title = document.createElement('h1')
-    title.innerHTML = newsContent.title
-    content.appendChild(title)
+    div.innerHTML = `
+        <h1>${newsContent.title}</h1>
+    `
+    content.appendChild(div.firstElementChild)
 })
 
-//ul li a태그에 데이터넣어보기(forEach)
+//ul li a태그에 데이터넣어보기
 const ul = document.createElement('ul')
 for(let i = 0; i<10; i++){
     const div = document.createElement('div')
-    // const li = document.createElement('li')
-    // const a = document.createElement('a')
-    // a.href=`#${newsFeed[i].id}`
-    // a.innerHTML = `${newsFeed[i].title}(${newsFeed[i].comments_count})`
-    // li.appendChild(a)
     div.innerHTML = `<li><a href='#${newsFeed[i].id}'>${newsFeed[i].title}(${newsFeed[i].comments_count})</a></li>`
     ul.appendChild(div.firstElementChild)//div태그안에있는 li추출 div.children[0]도 가능
 }

@@ -37,3 +37,7 @@ console.log(newsFeed)
 * DOM API remove
 * multiple code remove
 * app-old.js => app.js
+
+router
+* appendchild로 추가하는 대신에 container.innerHTML로 덮어써버리는 개념
+* app-router.js
