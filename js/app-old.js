@@ -3,14 +3,9 @@ let ajax = new XMLHttpRequest();
 const content = document.createElement('div')
 const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json'
 const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'//id값에 해당하는 내용
-
-function getData(url){
-    ajax.open('GET', url, false)
-    ajax.send()
-    return JSON.parse(ajax.response)
-}
-
-const newsFeed = getData(NEWS_URL)
+ajax.open('GET', NEWS_URL, false);//비동기가아니라 동기로가져오겠다
+ajax.send();
+const newsFeed = JSON.parse(ajax.response)
 
 window.addEventListener('hashchange',()=>{
     content.innerHTML = ''
@@ -18,7 +13,11 @@ window.addEventListener('hashchange',()=>{
     // console.log('hash is changed')
     console.log(location.hash)//#123456
     const id = location.hash.substr(1)
-    const newsContent = getData(CONTENT_URL.replace('@id', id))
+    ajax.open('GET', CONTENT_URL.replace('@id', id), false)
+    ajax.send()
+
+    const newsContent = JSON.parse(ajax.response)
+    console.log(newsContent)
     const title = document.createElement('h1')
     title.innerHTML = newsContent.title
     content.appendChild(title)
@@ -27,14 +26,13 @@ window.addEventListener('hashchange',()=>{
 //ul li a태그에 데이터넣어보기(forEach)
 const ul = document.createElement('ul')
 for(let i = 0; i<10; i++){
-    const div = document.createElement('div')
-    // const li = document.createElement('li')
-    // const a = document.createElement('a')
-    // a.href=`#${newsFeed[i].id}`
-    // a.innerHTML = `${newsFeed[i].title}(${newsFeed[i].comments_count})`
-    // li.appendChild(a)
-    div.innerHTML = `<li><a href='#${newsFeed[i].id}'>${newsFeed[i].title}(${newsFeed[i].comments_count})</a></li>`
-    ul.appendChild(div.firstElementChild)//div태그안에있는 li추출 div.children[0]도 가능
+    const li = document.createElement('li')
+    const a = document.createElement('a')
+    // a.href=`${CONTENT_URL}${newsFeed[i].id}.json`
+    a.href=`#${newsFeed[i].id}`
+    a.innerHTML = `${newsFeed[i].title}(${newsFeed[i].comments_count})`
+    li.appendChild(a)
+    ul.appendChild(li)
 }
 container.appendChild(ul)
 container.appendChild(content)
