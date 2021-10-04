@@ -1,0 +1,26 @@
+{
+  "name": "parcel-basic",
+  "version": "1.0.0",
+  "description": "Parcel 사용방법(+autoprefixer, babel)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.6",
+    "autoprefixer": "^9.8.6",
+    "parcel-bundler": "^1.12.5",
+    "postcss": "^8.3.7",
+    "sass": "^1.42.1"
+  },
+  "browserslist": [
+    ">1%",
+    "last 2 versions"
+  ]
+}
