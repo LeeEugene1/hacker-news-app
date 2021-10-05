@@ -1,29 +1,34 @@
+const container = document.getElementById('root')
 let ajax = new XMLHttpRequest();
+const content = document.createElement('div')
 const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json'
-ajax.open('GET', NEWS_URL, false);//비동기가아니라 동기로가져오겠다
-ajax.send();
+const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'//id값에 해당하는 내용
 
-//bring data
-// console.log(ajax.response)
+function getData(url){
+    ajax.open('GET', url, false)
+    ajax.send()
+    return JSON.parse(ajax.response)
+}
 
-//handling data
-//보기쉽게하기위해 객체(json->object)로 변환함(자바스크립트가 제공해줌)
-const newsFeed = JSON.parse(ajax.response)
-console.log(newsFeed)
+const newsFeed = getData(NEWS_URL)
 
-//ul li태그에 데이터 넣어보기
-// document.getElementById('root').innerHTML = `<ul>
-//     <li>${newsFeed[0].title}</li>
-//     <li>${newsFeed[1].title}</li>
-//     <li>${newsFeed[2].title}</li>
-// ...
-// </ul>`
+window.addEventListener('hashchange',()=>{
+    const div = document.createElement('div')
+    console.log(location.hash)//#123456
+    const id = location.hash.substr(1)
+    const newsContent = getData(CONTENT_URL.replace('@id', id))
+    div.innerHTML = `
+        <h1>${newsContent.title}</h1>
+    `
+    content.appendChild(div.firstElementChild)
+})
 
-//ul li태그에 데이터넣어보기(forEach)
+//ul li a태그에 데이터넣어보기
 const ul = document.createElement('ul')
 for(let i = 0; i<10; i++){
-    const li = document.createElement('li')
-    li.innerHTML = newsFeed[i].title
-    ul.appendChild(li)
+    const div = document.createElement('div')
+    div.innerHTML = `<li><a href='#${newsFeed[i].id}'>${newsFeed[i].title}(${newsFeed[i].comments_count})</a></li>`
+    ul.appendChild(div.firstElementChild)//div태그안에있는 li추출 div.children[0]도 가능
 }
-document.getElementById('root').appendChild(ul)
+container.appendChild(ul)
+container.appendChild(content)
