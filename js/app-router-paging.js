@@ -3,10 +3,15 @@ let ajax = new XMLHttpRequest();
 const content = document.createElement('div')
 const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json'
 const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'//id값에 해당하는 내용
-const store = {
-    currentPage:1,
+// const store = {
+//     currentPage:1,
+// }
+class Store {
+    currentPage = 1
 }
 
+let newsList = new Store();
+console.log(newsList.Store.currentPage)
 
 function news_List(){
     const newsFeed = getData(NEWS_URL)
@@ -31,6 +36,29 @@ function news_List(){
 
     container.innerHTML = newsList.join('')
 }
+// function news_List(){
+//     const newsFeed = getData(NEWS_URL)
+//     //array, push, join
+//     newsList = []
+//     newsList.push('<ul>')
+
+//     for(let i = (store.currentPage - 1) * 10; i< store.currentPage * 10; i++){//1page -> i:0
+//         newsList.push(`
+//             <li><a href='#/show/${newsFeed[i].id}'>${newsFeed[i].title}(${newsFeed[i].comments_count})</a></li>
+//         `)
+//     }
+
+//     newsList.push('</ul>')
+
+//     newsList.push(`
+//         <div>
+//             <a href="#/page/${store.currentPage > 1 ? store.currentPage  - 1 : 1}">prev</a>
+//             <a href="#/page/${store.currentPage < 3 ? store.currentPage + 1 : store.currentPage}">next</a>
+//         </div>
+//     `)
+
+//     container.innerHTML = newsList.join('')
+// }
 
 function getData(url){
     ajax.open('GET', url, false)
