@@ -5,9 +5,18 @@ const NEWS_URL = 'https://api.hnpwa.com/v0/news/1.json'
 const CONTENT_URL = 'https://api.hnpwa.com/v0/item/@id.json'//id값에 해당하는 내용
 const store = {
     currentPage:1,
+    feeds:[],
 }
+
 function news_List(){
-    const newsFeed = getData(NEWS_URL)
+    // const newsFeed = getData(NEWS_URL) 매번 API호출해야함
+    let newsFeed = store.feeds
+
+    //딱한번만 API호출 -> store.feeds 배열안에 저장
+    if (newsFeed.length === 0){
+        newsFeed = store.feeds = getData(NEWS_URL)
+    }
+
     //array, push, join
     newsList = []
     let template = `
