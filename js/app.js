@@ -8,13 +8,28 @@ const store = {
     feeds:[],
 }
 
+
+function getData(url){
+    ajax.open('GET', url, false)
+    ajax.send()
+    return JSON.parse(ajax.response)
+}
+
+function newsLeadFalseAll(feeds) {
+    for(let i = 0; i<feeds.length; i++){
+        feeds[i].read = false
+    }
+
+    return feeds
+}
+
 function news_List(){
     // const newsFeed = getData(NEWS_URL) 매번 API호출해야함
     let newsFeed = store.feeds
 
     //딱한번만 API호출 -> store.feeds 배열안에 저장
     if (newsFeed.length === 0){
-        newsFeed = store.feeds = getData(NEWS_URL)
+        newsFeed = store.feeds = newsLeadFalseAll(getData(NEWS_URL))
     }
 
     //array, push, join
@@ -73,12 +88,6 @@ function news_List(){
 
 }
 
-function getData(url){
-    ajax.open('GET', url, false)
-    ajax.send()
-    return JSON.parse(ajax.response)
-}
-
 function newsDetail(){
     // const id = location.hash.substr(1) 
     const id = location.hash.substr(7) 
@@ -111,6 +120,14 @@ function newsDetail(){
     </div>
   </div>
     `
+
+    // 읽은글 색상변경
+    for(let i = 0; i<store.feeds.length; i++){
+        if(store.feeds[i].id === Number(id)){
+            store.feeds[i].read = true;
+            break;
+        }
+    }
 
     function makeComment(comments, called=0) {
         const commentString = [];
