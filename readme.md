@@ -5,4 +5,5 @@ tsconfig.json 파일 만들기
 * 옵션참고
 https://www.typescriptlang.org/tsconfig
 
-2.
+2. parcel index.html
+npm run dev

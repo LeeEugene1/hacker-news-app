@@ -56,7 +56,7 @@ function news_List(){
     }
 
     //array, push, join
-    newsList = []
+    const newsList = []
     let template = `
             <div class="bg-gray-600 min-h-screen">
             <div class="bg-white text-xl">
